@@ -1,19 +1,19 @@
 package com.bookkeep.bookkeepapi.service;
 
+import com.bookkeep.bookkeepapi.entity.User;
+import com.bookkeep.bookkeepapi.mapper.UserMapper;
 import com.bookkeep.bookkeepapi.model.LoginRequest;
 import com.bookkeep.bookkeepapi.model.LoginResponse;
 import com.bookkeep.bookkeepapi.model.RegisterRequest;
 import com.bookkeep.bookkeepapi.model.RegisterResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserService {
 
-    // 内存中存储用户，key=username, value=password
-    private final Map<String, String> userStore = new ConcurrentHashMap<>();
+    @Autowired
+    private UserMapper userMapper;
 
     public RegisterResponse register(RegisterRequest request) {
         String username = request.getUsername();
@@ -23,10 +23,18 @@ public class UserService {
         if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
             return new RegisterResponse(false, "密码不能为空");
         }
-        if (userStore.containsKey(username)) {
+
+        // 检查用户名是否已存在
+        User existingUser = userMapper.findByUsername(username);
+        if (existingUser != null) {
             return new RegisterResponse(false, "用户名已存在");
         }
-        userStore.put(username, request.getPassword());
+
+        // 插入新用户
+        User user = new User(username, request.getPassword(),
+                request.getAge() != null ? Integer.parseInt(request.getAge()) : null);
+        userMapper.insert(user);
+
         return new RegisterResponse(true, "注册成功");
     }
 
@@ -39,10 +47,12 @@ public class UserService {
         if (password == null || password.trim().isEmpty()) {
             return new LoginResponse(false, "密码不能为空");
         }
-        if (!userStore.containsKey(username)) {
+
+        User user = userMapper.findByUsername(username);
+        if (user == null) {
             return new LoginResponse(false, "用户不存在");
         }
-        if (!userStore.get(username).equals(password)) {
+        if (!user.getPassword().equals(password)) {
             return new LoginResponse(false, "密码错误");
         }
         return new LoginResponse(true, "登录成功");
