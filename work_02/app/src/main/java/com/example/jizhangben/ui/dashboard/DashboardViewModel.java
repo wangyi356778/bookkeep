@@ -6,14 +6,17 @@ import androidx.lifecycle.ViewModel;
 
 public class DashboardViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private MutableLiveData<Double> totalIncome = new MutableLiveData<>(0.0);
+    private MutableLiveData<Double> totalExpense = new MutableLiveData<>(0.0);
+    private MutableLiveData<Double> balance = new MutableLiveData<>(0.0);
 
-    public DashboardViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
-    }
+    public LiveData<Double> getTotalIncome() { return totalIncome; }
+    public LiveData<Double> getTotalExpense() { return totalExpense; }
+    public LiveData<Double> getBalance() { return balance; }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void setStatistics(double income, double expense) {
+        totalIncome.setValue(income);
+        totalExpense.setValue(expense);
+        balance.setValue(income - expense);
     }
 }

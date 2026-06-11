@@ -21,23 +21,26 @@ public class LoginActivity extends AppCompatActivity {
 
         userRepository = new UserRepository();
 
-        // 1. 找到界面组件
-        EditText etUsername = findViewById(R.id.et_username);
+        EditText etPhone = findViewById(R.id.et_username);
         EditText etPassword = findViewById(R.id.et_password);
         Button btnLogin = findViewById(R.id.btn_login);
         Button btnRegister = findViewById(R.id.btn_register);
 
-        // 2. 给登录按钮加点击事件
+        // 登录按钮
         btnLogin.setOnClickListener(v -> {
-            String username = etUsername.getText().toString().trim();
+            String phone = etPhone.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "用户名或密码不能为空！", Toast.LENGTH_SHORT).show();
+            if (phone.isEmpty()) {
+                Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (password.isEmpty()) {
+                Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            userRepository.login(username, password, new UserRepository.LoginCallback() {
+            userRepository.login(phone, password, new UserRepository.LoginCallback() {
                 @Override
                 public void onSuccess(LoginResponse response) {
                     if (response.isSuccess()) {
@@ -57,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         });
 
-        // 3. 给注册按钮加点击事件
+        // 注册按钮跳转
         btnRegister.setOnClickListener(v -> {
             startActivity(new Intent(this, RegisterActivity.class));
         });

@@ -6,14 +6,11 @@ import androidx.lifecycle.ViewModel;
 
 public class NotificationsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private MutableLiveData<String> username = new MutableLiveData<>("未登录");
 
-    public NotificationsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
-    }
+    public LiveData<String> getUsername() { return username; }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void setUsername(String name) {
+        username.setValue(name);
     }
 }

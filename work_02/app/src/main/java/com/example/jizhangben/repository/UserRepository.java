@@ -18,8 +18,14 @@ public class UserRepository {
         apiService = RetrofitClient.getClient().create(ApiService.class);
     }
 
-    public void register(String username, String password, String age, RegisterCallback callback) {
-        RegisterRequest request = new RegisterRequest(username, password, age);
+    /**
+     * 注册（完整版：手机号+密码+确认密码+姓名+年龄+职业+性别）
+     */
+    public void register(String phone, String password, String confirmPassword,
+                        String name, String age, String occupation, String gender,
+                        RegisterCallback callback) {
+        RegisterRequest request = new RegisterRequest(phone, password, confirmPassword,
+                name, age, occupation, gender);
         Call<RegisterResponse> call = apiService.register(request);
 
         call.enqueue(new Callback<RegisterResponse>() {
@@ -39,8 +45,11 @@ public class UserRepository {
         });
     }
 
-    public void login(String username, String password, LoginCallback callback) {
-        LoginRequest request = new LoginRequest(username, password);
+    /**
+     * 登录（手机号+密码）
+     */
+    public void login(String phone, String password, LoginCallback callback) {
+        LoginRequest request = new LoginRequest(phone, password);
         Call<LoginResponse> call = apiService.login(request);
 
         call.enqueue(new Callback<LoginResponse>() {

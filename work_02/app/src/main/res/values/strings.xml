@@ -1,6 +1,28 @@
 <resources>
-    <string name="app_name">JiZhangBen</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">记账本</string>
+
+    <!-- 底部导航 -->
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">统计</string>
+    <string name="title_notifications">我的</string>
+
+    <!-- 首页 -->
+    <string name="home_month_income">本月收入</string>
+    <string name="home_month_expense">本月支出</string>
+    <string name="home_no_record">暂无记录，点击右下角按钮记账</string>
+    <string name="home_add_record">记一笔</string>
+
+    <!-- 统计页 -->
+    <string name="stat_title">收支统计</string>
+    <string name="stat_total_income">总收入</string>
+    <string name="stat_total_expense">总支出</string>
+    <string name="stat_balance">结余</string>
+    <string name="stat_category_title">分类统计</string>
+
+    <!-- 个人中心 -->
+    <string name="profile_username">用户名</string>
+    <string name="profile_logout">退出登录</string>
+    <string name="profile_about">关于应用</string>
+    <string name="profile_settings">设置</string>
+    <string name="profile_data_manage">数据管理</string>
 </resources>

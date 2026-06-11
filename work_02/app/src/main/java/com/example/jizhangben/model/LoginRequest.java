@@ -1,28 +1,19 @@
 package com.example.jizhangben.model;
 
 public class LoginRequest {
-    private String username;
+    private String phone;        // 手机号
     private String password;
 
-    public LoginRequest(){  }
-    public LoginRequest(String username, String password) {
-        this.username = username;
+    public LoginRequest() {}
+
+    public LoginRequest(String phone, String password) {
+        this.phone = phone;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }
