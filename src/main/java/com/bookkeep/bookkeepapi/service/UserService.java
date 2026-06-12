@@ -9,11 +9,16 @@ import com.bookkeep.bookkeepapi.model.RegisterResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
+
 @Service
 public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private HttpServletResponse response;
 
     public RegisterResponse register(RegisterRequest request) {
         String phone = request.getPhone();
@@ -66,6 +71,8 @@ public class UserService {
         if (!user.getPassword().equals(password)) {
             return new LoginResponse(false, "密码错误");
         }
-        return new LoginResponse(true, "登录成功");
+        String token = UUID.randomUUID().toString().replaceAll("-", "");
+
+        return new LoginResponse(true, "登录成功",token);
     }
 }

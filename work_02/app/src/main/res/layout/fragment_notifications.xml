@@ -13,6 +13,7 @@
 
         <!-- 用户信息头部卡片 -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/layout_profile_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -59,10 +60,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_profile_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="点击登录享受更多功能"
+                        android:text="点击编辑个人信息"
                         android:textColor="#B3FFFFFF"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -74,6 +76,18 @@
                     app:srcCompat="@drawable/ic_home_black_24dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <!-- 记账统计 -->
+        <TextView
+            android:id="@+id/tv_record_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp"
+            android:text="共记账 0 次"
+            android:textColor="@color/text_hint"
+            android:textSize="13sp" />
 
         <!-- 功能菜单列表 -->
         <com.google.android.material.card.MaterialCardView

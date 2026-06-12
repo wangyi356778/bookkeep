@@ -1,27 +1,29 @@
 package com.bookkeep.bookkeepapi.model;
 
-public class LoginResponse {
+import com.bookkeep.bookkeepapi.entity.Record;
+
+public class BaseResponse {
     private boolean success;
     private String message;
-    private String token;
+    private Object data;
 
-    public LoginResponse() {}
+    public BaseResponse() {}
 
-    public LoginResponse(boolean success, String message){
+    public BaseResponse(boolean success, String message) {
         this.success = success;
         this.message = message;
     }
 
-    public LoginResponse(boolean success, String message, String token) {
+    public BaseResponse(boolean success, String message, Object data) {
         this.success = success;
         this.message = message;
-        this.token = token;
+        this.data = data;
     }
 
     public boolean isSuccess() { return success; }
     public void setSuccess(boolean success) { this.success = success; }
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
+    public Object getData() { return data; }
+    public void setData(Object data) { this.data = data; }
 }

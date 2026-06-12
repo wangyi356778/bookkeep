@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jizhangben.model.LoginResponse;
 import com.example.jizhangben.repository.UserRepository;
+import com.example.jizhangben.utils.TokenManager;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,6 +19,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // 检查是否已有token，有则直接跳转
+        if (TokenManager.isLoggedIn(this)) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
 
         userRepository = new UserRepository();
 
@@ -44,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(LoginResponse response) {
                     if (response.isSuccess()) {
+                        // 保存token
+                        TokenManager.saveToken(LoginActivity.this, response.getToken(), phone);
                         Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);

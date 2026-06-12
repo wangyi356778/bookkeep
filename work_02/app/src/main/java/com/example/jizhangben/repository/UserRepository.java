@@ -1,5 +1,7 @@
 package com.example.jizhangben.repository;
 
+import com.example.jizhangben.model.AddRecordRequest;
+import com.example.jizhangben.model.BaseResponse;
 import com.example.jizhangben.model.LoginRequest;
 import com.example.jizhangben.model.LoginResponse;
 import com.example.jizhangben.model.RegisterRequest;
@@ -69,6 +71,80 @@ public class UserRepository {
         });
     }
 
+    // ========== 记账相关 ==========
+
+    /** 添加记账记录 */
+    public void addRecord(String phone, AddRecordRequest request, DataCallback callback) {
+        Call<BaseResponse> call = apiService.addRecord(request, phone);
+        call.enqueue(new BaseCallback(callback));
+    }
+
+    /** 获取用户所有记录 */
+    public void getRecords(String phone, DataCallback callback) {
+        Call<BaseResponse> call = apiService.getRecords(phone);
+        call.enqueue(new BaseCallback(callback));
+    }
+
+    /** 编辑记录 */
+    public void updateRecord(Long id, String phone, AddRecordRequest request, DataCallback callback) {
+        Call<BaseResponse> call = apiService.updateRecord(id, request, phone);
+        call.enqueue(new BaseCallback(callback));
+    }
+
+    /** 删除记录 */
+    public void deleteRecord(Long id, String phone, DataCallback callback) {
+        Call<BaseResponse> call = apiService.deleteRecord(id, phone);
+        call.enqueue(new BaseCallback(callback));
+    }
+
+    /** 月度汇总 */
+    public void getMonthlySummary(String phone, String month, DataCallback callback) {
+        Call<BaseResponse> call = apiService.getMonthlySummary(phone, month);
+        call.enqueue(new BaseCallback(callback));
+    }
+
+    /** 记账总次数 */
+    public void getRecordCount(String phone, DataCallback callback) {
+        Call<BaseResponse> call = apiService.getRecordCount(phone);
+        call.enqueue(new BaseCallback(callback));
+    }
+
+    // ========== 用户信息 ==========
+
+    /** 获取用户信息 */
+    public void getUserInfo(String phone, DataCallback callback) {
+        Call<BaseResponse> call = apiService.getUserInfo(phone);
+        call.enqueue(new BaseCallback(callback));
+    }
+
+    /** 更新用户信息 */
+    public void updateUserProfile(Object user, String phone, DataCallback callback) {
+        Call<BaseResponse> call = apiService.updateUserProfile(user, phone);
+        call.enqueue(new BaseCallback(callback));
+    }
+
+    // ========== 通用回调 ==========
+
+    private static class BaseCallback implements Callback<BaseResponse> {
+        private final DataCallback callback;
+
+        BaseCallback(DataCallback callback) { this.callback = callback; }
+
+        @Override
+        public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+            if (response.isSuccessful() && response.body() != null) {
+                callback.onSuccess(response.body());
+            } else {
+                callback.onError("请求失败，服务器错误");
+            }
+        }
+
+        @Override
+        public void onFailure(Call<BaseResponse> call, Throwable t) {
+            callback.onError("网络错误：" + t.getMessage());
+        }
+    }
+
     public interface RegisterCallback {
         void onSuccess(RegisterResponse response);
         void onError(String errorMessage);
@@ -76,6 +152,11 @@ public class UserRepository {
 
     public interface LoginCallback {
         void onSuccess(LoginResponse response);
+        void onError(String errorMessage);
+    }
+
+    public interface DataCallback {
+        void onSuccess(BaseResponse response);
         void onError(String errorMessage);
     }
 }
